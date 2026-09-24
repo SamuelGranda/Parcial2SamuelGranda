@@ -38,6 +38,6 @@ public class Assignment {
     @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "assignment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assignment")
     private List<Repository> repositories;
 }

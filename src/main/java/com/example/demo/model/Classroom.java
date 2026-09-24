@@ -28,8 +28,11 @@ public class Classroom {
     @Column(name = "semester", nullable = false)
     private String semester;
 
-    @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private User teacher;
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "teacher_id")
+    private List<User> teachers;
+
 
 }

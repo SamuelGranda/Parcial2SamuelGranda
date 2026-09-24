@@ -40,7 +40,8 @@ public class Commit {
     private Repository repository;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
-    private User collaborators;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "author_id")
+    private List<User> users;
 }

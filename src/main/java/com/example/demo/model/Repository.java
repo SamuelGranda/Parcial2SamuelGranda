@@ -1,9 +1,11 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @Getter
@@ -30,8 +32,7 @@ public class Repository {
     @Column(name = "create_at",nullable = false, unique = true)
     private Timestamp createAt;
 
-    @ManyToOne
-    @JoinColumn(name = "assignment_id")
-    private Assignment assignment;
+    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Assignment> assignments;
 
 }
