@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,33 +15,37 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-    @GeneratedValue()
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "email",nullable = false)
     private String email;
 
     @Column(name = "full_name", nullable = false)
-    private String role;
-
-    @Column(nullable = false)
     private String fullName;
+
+    @Column(name = "role", nullable = false)
+    private String role;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Classroom> ownedRepositories;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PullRequest> taughtRepositories;
 
-    @ManyToOne(mappedBy = "author", cascade = CascadeType.ALL)
-    private List<PullRequest> authoredPullRequests;
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private PullRequest authoredPullRequests;
 
-    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PullRequest> reviewedPullRequests;
 
-    @ManyToOne(mappedBy = "commits", cascade = CascadeType.ALL)
-    private List<Commit> commits;
+    @ManyToOne
+    @JoinColumn(name = "commits")
+    private Commit commits;
 }
+
